@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>TypeScript Theory Notes</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      pre {
+        max-width: 100%;
+        white-space: pre;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+    </style>
+</head>
+<body class="overflow-x-hidden bg-slate-950 text-slate-100">
+  <main class="min-h-screen">
+    <header class="border-b border-slate-800 bg-slate-900">
+      <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
+        <p class="mb-3 text-xs font-semibold uppercase tracking-widest text-sky-400 sm:text-sm">Interview practice · fundamentals</p>
+        <h1 class="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">TypeScript Theory Notes</h1>
+        <p class="mt-4 max-w-3xl text-base leading-7 text-slate-300 sm:text-lg sm:leading-8">
+          TypeScript is JavaScript with a static type system. These notes explain the ideas behind the syntax,
+          with small examples you can adapt in real projects.
+        </p>
+      </div>
+    </header>
+
+    <div class="mx-auto grid min-w-0 max-w-6xl gap-8 px-4 py-8 sm:px-6 sm:py-10 lg:grid-cols-[220px_minmax(0,1fr)]">
+      <aside class="min-w-0 lg:sticky lg:top-6 lg:self-start">
+        <h2 class="mb-3 text-sm font-semibold uppercase tracking-wider text-slate-400">On this page</h2>
+        <nav class="flex max-w-full gap-2 overflow-x-auto border-y border-slate-700 py-2 text-sm text-slate-300 [scrollbar-width:none] lg:block lg:space-y-2 lg:overflow-visible lg:border-y-0 lg:border-l lg:py-0 lg:pl-4">
+          <a class="block shrink-0 rounded-md px-3 py-2 hover:bg-slate-800 hover:text-sky-400 lg:px-0 lg:py-0 lg:hover:bg-transparent" href="#philosophy">Core philosophy</a>
+          <a class="block shrink-0 rounded-md px-3 py-2 hover:bg-slate-800 hover:text-sky-400 lg:px-0 lg:py-0 lg:hover:bg-transparent" href="#types">Types and inference</a>
+          <a class="block shrink-0 rounded-md px-3 py-2 hover:bg-slate-800 hover:text-sky-400 lg:px-0 lg:py-0 lg:hover:bg-transparent" href="#functions">Functions</a>
+          <a class="block shrink-0 rounded-md px-3 py-2 hover:bg-slate-800 hover:text-sky-400 lg:px-0 lg:py-0 lg:hover:bg-transparent" href="#objects">Objects and aliases</a>
+          <a class="block shrink-0 rounded-md px-3 py-2 hover:bg-slate-800 hover:text-sky-400 lg:px-0 lg:py-0 lg:hover:bg-transparent" href="#narrowing">Unions and narrowing</a>
+          <a class="block shrink-0 rounded-md px-3 py-2 hover:bg-slate-800 hover:text-sky-400 lg:px-0 lg:py-0 lg:hover:bg-transparent" href="#generics">Generics</a>
+          <a class="block shrink-0 rounded-md px-3 py-2 hover:bg-slate-800 hover:text-sky-400 lg:px-0 lg:py-0 lg:hover:bg-transparent" href="#utility-types">Utility types</a>
+          <a class="block shrink-0 rounded-md px-3 py-2 hover:bg-slate-800 hover:text-sky-400 lg:px-0 lg:py-0 lg:hover:bg-transparent" href="#best-practices">Best practices</a>
+        </nav>
+      </aside>
+
+      <article class="min-w-0 space-y-10">
+        <section id="philosophy" class="scroll-mt-6">
+          <div class="mb-4 flex items-center gap-3">
+            <span class="rounded-full bg-sky-500/10 px-3 py-1 text-sm font-semibold text-sky-300">01</span>
+            <h2 class="min-w-0 text-xl font-bold sm:text-2xl">Core philosophy</h2>
+          </div>
+          <div class="grid gap-4 md:grid-cols-3">
+            <div class="rounded-xl border border-slate-800 bg-slate-900 p-5">
+              <h3 class="font-semibold text-white">JavaScript superset</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-400">Any valid JavaScript is valid TypeScript. Types are removed during compilation.</p>
+            </div>
+            <div class="rounded-xl border border-slate-800 bg-slate-900 p-5">
+              <h3 class="font-semibold text-white">Compile-time safety</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-400">The compiler catches many mistakes before code reaches the browser or server.</p>
+            </div>
+            <div class="rounded-xl border border-slate-800 bg-slate-900 p-5">
+              <h3 class="font-semibold text-white">No runtime type checking</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-400">Types do not exist at runtime. Validate data from APIs and users yourself.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="types" class="scroll-mt-6">
+          <div class="mb-4 flex items-center gap-3">
+            <span class="rounded-full bg-sky-500/10 px-3 py-1 text-sm font-semibold text-sky-300">02</span>
+            <h2 class="min-w-0 text-xl font-bold sm:text-2xl">Types and inference</h2>
+          </div>
+          <p class="mb-4 leading-7 text-slate-300">
+            Prefer inference when the initial value makes the type obvious. Add annotations at boundaries such as
+            function parameters, exported values, and external data.
+          </p>
+          <pre class="rounded-xl border border-slate-800 bg-slate-900 p-4 text-xs leading-6 text-slate-200 sm:p-5 sm:text-sm sm:leading-7"><code>let userName: string = "Ada";
+const age = 36;                 // inferred as number
+const isDeveloper: boolean = true;
+const skills: string[] = ["TypeScript", "CSS"];
+const scores: Array&lt;number&gt; = [95, 88];
+
+// unknown is safe: narrow it before using it.
+function printValue(value: unknown): void {
+  if (typeof value === "string") console.log(value.toUpperCase());
+}</code></pre>
+          <div class="mt-4 rounded-lg border border-amber-400/20 bg-amber-400/10 p-4 text-sm text-amber-100">
+            <strong>Tip:</strong> Avoid <code class="text-amber-300">any</code> when possible. It disables type checking and allows unsafe operations.
+          </div>
+        </section>
+
+        <section id="functions" class="scroll-mt-6">
+          <div class="mb-4 flex items-center gap-3">
+            <span class="rounded-full bg-sky-500/10 px-3 py-1 text-sm font-semibold text-sky-300">03</span>
+            <h2 class="min-w-0 text-xl font-bold sm:text-2xl">Functions</h2>
+          </div>
+          <p class="mb-4 leading-7 text-slate-300">Type parameters, arguments, and return values. Optional parameters must come after required ones.</p>
+          <pre class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900 p-5 text-sm leading-7 text-slate-200"><code>function add(a: number, b: number): number {
+  return a + b;
+}
+
+const formatUser = (name: string, role = "member"): string =>
+  `${name} (${role})`;
+
+function logMessage(message: string): void {
+  console.log(message);
+}
+
+// A callback type
+const numbers = [1, 2, 3];
+const doubled = numbers.map((number: number): number => number * 2);</code></pre>
+        </section>
+
+        <section id="objects" class="scroll-mt-6">
+          <div class="mb-4 flex items-center gap-3">
+            <span class="rounded-full bg-sky-500/10 px-3 py-1 text-sm font-semibold text-sky-300">04</span>
+            <h2 class="min-w-0 text-xl font-bold sm:text-2xl">Objects, interfaces, and type aliases</h2>
+          </div>
+          <p class="mb-4 leading-7 text-slate-300">Interfaces describe object shapes and can be extended. Type aliases are flexible and can represent unions, primitives, and tuples.</p>
+          <pre class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900 p-5 text-sm leading-7 text-slate-200"><code>interface User {
+  readonly id: number;
+  name: string;
+  email?: string; // optional property
+}
+
+interface Admin extends User {
+  permissions: string[];
+}
+
+type Coordinates = [latitude: number, longitude: number];
+type Status = "loading" | "success" | "error";
+
+const admin: Admin = {
+  id: 1,
+  name: "Grace",
+  permissions: ["manage-users"]
+};</code></pre>
+        </section>
+
+        <section id="narrowing" class="scroll-mt-6">
+          <div class="mb-4 flex items-center gap-3">
+            <span class="rounded-full bg-sky-500/10 px-3 py-1 text-sm font-semibold text-sky-300">05</span>
+            <h2 class="min-w-0 text-xl font-bold sm:text-2xl">Unions and narrowing</h2>
+          </div>
+          <p class="mb-4 leading-7 text-slate-300">A union allows more than one type. Narrow it with <code class="text-sky-300">typeof</code>, equality checks, the <code class="text-sky-300">in</code> operator, or a custom type predicate.</p>
+          <pre class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900 p-5 text-sm leading-7 text-slate-200"><code>function formatId(id: string | number): string {
+  return typeof id === "number" ? `#${id}` : id.toUpperCase();
+}
+
+type Circle = { kind: "circle"; radius: number };
+type Square = { kind: "square"; side: number };
+type Shape = Circle | Square;
+
+function area(shape: Shape): number {
+  if (shape.kind === "circle") return Math.PI * shape.radius ** 2;
+  return shape.side ** 2;
+}</code></pre>
+        </section>
+
+        <section id="generics" class="scroll-mt-6">
+          <div class="mb-4 flex items-center gap-3">
+            <span class="rounded-full bg-sky-500/10 px-3 py-1 text-sm font-semibold text-sky-300">06</span>
+            <h2 class="min-w-0 text-xl font-bold sm:text-2xl">Generics</h2>
+          </div>
+          <p class="mb-4 leading-7 text-slate-300">Generics preserve the relationship between input and output types without falling back to <code class="text-sky-300">any</code>.</p>
+          <pre class="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900 p-5 text-sm leading-7 text-slate-200"><code>function first&lt;T&gt;(items: T[]): T | undefined {
+  return items[0];
+}
+
+const firstName = first(["Ada", "Linus"]); // string | undefined
+const firstScore = first([10, 20]);        // number | undefined
+
+interface ApiResponse&lt;T&gt; {
+  data: T;
+  status: number;
+}
+
+const response: ApiResponse&lt;User&gt; = {
+  data: admin,
+  status: 200
+};</code></pre>
+        </section>
+
+        <section id="utility-types" class="scroll-mt-6">
+          <div class="mb-4 flex items-center gap-3">
+            <span class="rounded-full bg-sky-500/10 px-3 py-1 text-sm font-semibold text-sky-300">07</span>
+            <h2 class="min-w-0 text-xl font-bold sm:text-2xl">Useful utility types</h2>
+          </div>
+          <div class="grid gap-3 sm:grid-cols-2">
+            <div class="rounded-xl border border-slate-800 bg-slate-900 p-4"><code class="text-sky-300">Partial&lt;User&gt;</code><p class="mt-1 text-sm text-slate-400">Makes every property optional; useful for updates.</p></div>
+            <div class="rounded-xl border border-slate-800 bg-slate-900 p-4"><code class="text-sky-300">Pick&lt;User, "name"&gt;</code><p class="mt-1 text-sm text-slate-400">Creates a type with selected properties.</p></div>
+            <div class="rounded-xl border border-slate-800 bg-slate-900 p-4"><code class="text-sky-300">Omit&lt;User, "id"&gt;</code><p class="mt-1 text-sm text-slate-400">Removes selected properties.</p></div>
+            <div class="rounded-xl border border-slate-800 bg-slate-900 p-4"><code class="text-sky-300">Record&lt;Status, string&gt;</code><p class="mt-1 text-sm text-slate-400">Builds an object type from known keys.</p></div>
+          </div>
+          <pre class="mt-4 overflow-x-auto rounded-xl border border-slate-800 bg-slate-900 p-5 text-sm leading-7 text-slate-200"><code>function updateUser(id: number, changes: Partial&lt;User&gt;): void {
+  console.log(id, changes);
+}
+
+updateUser(1, { name: "Ada" });</code></pre>
+        </section>
+
+        <section id="best-practices" class="scroll-mt-6">
+          <div class="mb-4 flex items-center gap-3">
+            <span class="rounded-full bg-sky-500/10 px-3 py-1 text-sm font-semibold text-sky-300">08</span>
+            <h2 class="min-w-0 text-xl font-bold sm:text-2xl">Best practices checklist</h2>
+          </div>
+          <ul class="grid gap-3 text-slate-300 sm:grid-cols-2">
+            <li class="rounded-lg border border-slate-800 bg-slate-900 p-4">✓ Enable <code class="text-sky-300">strict: true</code>.</li>
+            <li class="rounded-lg border border-slate-800 bg-slate-900 p-4">✓ Prefer <code class="text-sky-300">const</code> and narrow unions.</li>
+            <li class="rounded-lg border border-slate-800 bg-slate-900 p-4">✓ Type API boundaries and validate runtime data.</li>
+            <li class="rounded-lg border border-slate-800 bg-slate-900 p-4">✓ Use descriptive aliases for domain concepts.</li>
+            <li class="rounded-lg border border-slate-800 bg-slate-900 p-4">✓ Keep type assertions rare and justified.</li>
+            <li class="rounded-lg border border-slate-800 bg-slate-900 p-4">✓ Let inference handle obvious local values.</li>
+          </ul>
+        </section>
+      </article>
+    </div>
+  </main>
+</body>
+</html>
