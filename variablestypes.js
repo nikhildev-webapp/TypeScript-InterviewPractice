@@ -16,3 +16,13 @@ let length = 10;
 let width = 5;
 let area = length * width;
 console.log(`Area of rectangle: ${area}`);
+//Exercise-4 find the square and cube of the nuber
+let X_Num = 2;
+console.log(`Square of the Number: ${X_Num ** 2}`);
+console.log(`Square of the Number: ${X_Num ** 3}`);
+//Exercise-5 Create a student information programm
+let StudentName = 'Nikhil';
+let StudentAge = 21;
+let course = 'Frontend Development';
+console.log('Student Information:');
+console.log(`StudentName:${StudentName}\nStudentAge:${StudentAge}\nCourse:${course}`);
