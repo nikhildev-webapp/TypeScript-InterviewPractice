@@ -15,3 +15,32 @@ if (num_2 % 2 === 0){
 }else{
     console.log('Number is odd')
 }
+
+//Exercise-3-check the voting age
+let user_age: number = 1;
+if (user_age >= 18){
+    console.log('You can vote')
+} else{
+    console.log('Better luck next time')
+}
+
+//Exercise-4- Grade calculator using switch case
+let Grade: number = 12
+switch (Grade){
+    case 60:
+        console.log('C')
+        break
+    case 75:
+        console.log('B');
+        break
+    case 80:
+        console.log('A')
+        break
+    case 90:
+        console.log('Outstanding')
+        break
+    default:
+        console.log('Fail')
+        break
+}
+
