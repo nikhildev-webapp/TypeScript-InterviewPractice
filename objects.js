@@ -1,0 +1,33 @@
+"use strict";
+const studentInfo = {
+    name: 'Nikhil',
+    class: 'XII',
+    stream: 'Commerce',
+    isEnrolled: true ? "Enrolled" : "Not Enrolled",
+    rollNo: 2
+};
+console.log('Student Information:');
+console.log(studentInfo);
+const Employee = {
+    id: 1011,
+    name: 'Nikhil',
+    position: 'Frontend Developer',
+    isWorking: true ? 'Working' : 'Resigned',
+};
+console.log('Employee information');
+console.log(Employee);
+const userOne = {
+    id: 111,
+    name: "Alice",
+    company: {
+        name: 'TechCorp',
+        address: {
+            city: 'NewYork',
+            postalCode: '10001'
+        }
+    }
+};
+const cityOne = userOne.company?.address.city;
+console.log('Acessing the City from Nested object:', cityOne);
+const personName = userOne.name;
+console.log('Accessing the Person Name from Nested Object:', personName);
