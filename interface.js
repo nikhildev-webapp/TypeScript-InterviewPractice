@@ -20,3 +20,26 @@ const myCar = {
 };
 console.log('Example-Vehicle Interface:');
 console.log(myCar);
+const user = {
+    name: 'Nikhil',
+    age: 21,
+    isEmployeed: false ? 'Employeed' : 'UnEmployeed',
+    maritualSTatus: false ? 'Married' : 'Single',
+};
+console.log('User Details');
+console.log(user);
+const product = {
+    productName: 'Logitech Mx Master',
+    price: 12000,
+    inStock: false ? 'In-Stock' : 'Not Available'
+};
+console.log('Product Deatils:');
+console.log(product);
+const employee = {
+    name: 'Nikhil',
+    age: 21,
+    position: 'Frontend Developer',
+    isPormoted: false ? 'Pormoted' : 'Not Pormoted'
+};
+console.log('Employee Information');
+console.log(employee);

@@ -37,3 +37,52 @@ const myCar: Car = {
 
 console.log('Example-Vehicle Interface:');
 console.log(myCar)
+
+//Exercise-1-Create a user interface
+interface User{
+    name: string,
+    age: number,
+    isEmployeed: boolean | string,
+    maritualSTatus: boolean | string,
+}
+
+const user: User = {
+    name: 'Nikhil',
+    age: 21,
+    isEmployeed: false ? 'Employeed' : 'UnEmployeed',
+    maritualSTatus:false?'Married':'Single',
+}
+
+console.log('User Details');
+console.log(user)
+
+interface Product{
+    productName: string,
+    price: number,
+    inStock:boolean|string
+}
+
+const product: Product = {
+    productName: 'Logitech Mx Master',
+    price: 12000,
+    inStock:false?'In-Stock':'Not Available'
+}
+console.log('Product Deatils:')
+console.log(product);
+
+//Exercise-3-Create Employee Interface
+interface Employee{
+    name: string,
+    age: number,
+    position: string,
+    isPormoted:boolean|string
+}
+
+const employee: Employee = {
+    name: 'Nikhil',
+    age: 21,
+    position: 'Frontend Developer',
+    isPormoted:false?'Pormoted':'Not Pormoted'
+}
+console.log('Employee Information');
+console.log(employee)
